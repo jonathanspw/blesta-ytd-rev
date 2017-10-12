@@ -16,7 +16,7 @@ From here all you need to do is copy config.new.php to config.php and customize 
     
 # Configuration Options
 
-The error reporting settings and MySQL configuration lines should be self-explanatory.
+The error reporting settings and MySQL configuration lines should be self-explanatory.  The database information provided should be your Blesta database.
 
 ### COMBINE_GROUPS
 This option can be used when you have a group (or groups) that have similar names/functions and for the sake of reporting you want to combine them.  When you do this, the first group hit from the numerically sequential list returned from the database becomes the parent group who's name is used and combined into.  It can be given an array of arrays as follows:
