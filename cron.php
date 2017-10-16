@@ -46,7 +46,7 @@ class blestaRevCron{
 	 * @return mixed
 	 */
 	public function countServices($package_group_id){
-		$sql = "SELECT count(*) FROM `services` LEFT JOIN `package_pricing` ON `services`.`pricing_id`=`package_pricing`.`id` LEFT JOIN `package_group` on `package_pricing`.`package_id`=`package_group`.`package_id` WHERE `services`.`status`='active' AND `package_group`.`package_group_id` IN ($package_group_id)";
+		$sql = "SELECT count(*) FROM `services` LEFT JOIN `package_pricing` ON `services`.`pricing_id`=`package_pricing`.`id` LEFT JOIN `package_group` on `package_pricing`.`package_id`=`package_group`.`package_id` WHERE `services`.`status` IN ('active','suspended') AND `package_group`.`package_group_id` IN ($package_group_id)";
 		$result = $this->db->query($sql);
 		return $result->fetch_row()[0];
 	}
