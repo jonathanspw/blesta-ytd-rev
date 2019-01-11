@@ -25,6 +25,13 @@ This option can be used when you have a group (or groups) that have similar name
 
 This will combine the group 11 into group 7, and groups 21 and 22 into group 20.
 
+### CALC_CONFIG_OPTS
+This option is a bit complicated and not really finished.  It was very hastily thrown together.  It its current state it attempts to break down the monthly recurring value of a configurable option in revenue.  **It does not take into account coupons at all.**
+
+If you do not provide a "values" array to an option then it will assume a value of "1".  If you have multiple values that need to be calculated you need to include an array.  Make sure to follow the correct format for strings as this is passed directly to MySQL.  If you get the syntax wrong here the script will fail.
+
+The intent is that you only list non-0 priced option values here.
+
 ### EMAIL_TO
 Address(es) you want the email sent to.  Multiple addresses should be separated by a comma.
 
