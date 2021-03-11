@@ -16,7 +16,7 @@ class blestaRevCron{
      * @return array|bool array of package groups in id=>name format.  false on failure
      */
     public function getPackageGroups(){
-        $sql = "SELECT `id`,`name` from `package_groups`";
+        $sql = "SELECT `package_groups`.`id`,`package_group_names`.`name` from `package_groups` left join `package_group_names` on `package_groups`.`id`=`package_group_names`.`package_group_id`";
         $result = $this->db->query($sql);
         while($row = $result->fetch_assoc()){
             $package_groups[$row['id']] = $row['name'];
