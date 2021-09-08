@@ -20,7 +20,8 @@ define('COMBINE_GROUPS',array(array(),array()));
 //        [
 //            'name' => 'option_name2',
 //            'values' => ["'V'","'U'",1,2]
-//        ]
+//        ],
+//        ['name' => 'option_name3', 'type' => 'quantity'],
 //    )
 //);
 

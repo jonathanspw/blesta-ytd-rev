@@ -64,6 +64,31 @@ class blestaRevCron{
         return $result->fetch_assoc();
     }
 
+    public function configOptRevQty($name){
+        $sql = "select sum(count) as count,sum(price) as rev from (
+            select sum(service_options.qty) as count, sum(round(pricings.price/term*service_options.qty)) as price from service_options
+                left join services on services.id=service_options.service_id
+                left join package_option_pricing on service_options.option_pricing_id=package_option_pricing.id
+                left join package_option_values on package_option_pricing.option_value_id=package_option_values.id
+                left join package_options on package_option_values.option_id=package_options.id
+                left join pricings on package_option_pricing.pricing_id=pricings.id
+                where package_options.name='mailchannels_inbound_domains'
+                    and services.status in ('active','suspended')
+                    and period='month'
+            union select sum(service_options.qty) as count, sum(round(pricings.price/term/12*service_options.qty)) as price from service_options
+                left join services on services.id=service_options.service_id
+                left join package_option_pricing on service_options.option_pricing_id=package_option_pricing.id
+                left join package_option_values on package_option_pricing.option_value_id=package_option_values.id
+                left join package_options on package_option_values.option_id=package_options.id
+                left join pricings on package_option_pricing.pricing_id=pricings.id
+            where package_options.name='mailchannels_inbound_domains'
+              and services.status in ('active','suspended')
+              and period='year'
+        ) as t1;";
+        $result = $this->db->query($sql);
+        return $result->fetch_assoc();
+    }
+
 }
 
 $revcron = new blestaRevCron;
@@ -139,7 +164,11 @@ if(defined('CALC_CONFIG_OPTS')) {
         $values = [1];
         if (isset($opt['values']))
             $values = $opt['values'];
-        $configOptRev = $revcron->configOptRev($opt['name'], $values);
+        if(isset($opt['type']) && $opt['type'] == 'quantity'){
+            $configOptRev = $revcron->configOptRevQty($opt['name']);
+        }else {
+            $configOptRev = $revcron->configOptRev($opt['name'], $values);
+        }
 
         $html .= "<tr>
                 <td><strong>" . $opt['name'] . "</strong></td>
